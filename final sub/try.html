@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Trimetime — Login & Register</title>
+<style>
+  /* ---------- base ---------- */
+  :root{
+    --bg1:#0f172a;
+    --accent:#ff5a5f;
+    --accent-2:#ff8a80;
+    --glass: rgba(255,255,255,0.06);
+    --muted:#9aa3b2;
+    --card:#ffffff;
+    --success:#22c55e;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:linear-gradient(180deg,#071025 0%, #0b1b2b 100%); color:#eef2f7; -webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  main{min-height:100vh;display:grid;grid-template-columns:360px 1fr;gap:28px;align-items:center;padding:36px;max-width:1200px;margin:0 auto}
+
+  /* ---------- left: form column ---------- */
+  .brandCol{position:relative;padding:30px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.018));backdrop-filter: blur(6px);box-shadow: 0 12px 40px rgba(2,6,23,0.65);overflow:hidden}
+  .logoRow{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+  .logoMark{
+    width:64px;height:64px;border-radius:14px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    box-shadow:0 8px 24px rgba(255,90,95,0.16);
+    transform:skewX(-6deg);
+  }
+  .logoMark strong{color:white;font-size:22px;letter-spacing:1px}
+  .brandTitle{font-weight:800;font-size:20px;color:#fff}
+  .brandSub{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* tabs */
+  .tabs{display:flex;gap:10px;margin:20px 0 8px}
+  .tabBtn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:#e6eef6;cursor:pointer;font-weight:700}
+  .tabBtn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 8px 24px rgba(255,90,95,0.12);border:none;color:#111}
+
+  /* card(s) */
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:14px; border-radius:12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); margin-bottom:12px}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+  input[type="text"], input[type="email"], input[type="password"], select, textarea{
+    width:100%;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);
+    background:rgba(255,255,255,0.02);color:#fff;font-size:14px
+  }
+  textarea{min-height:72px}
+  .row{display:flex;gap:10px}
+  .row .col{flex:1}
+
+  .small{font-size:12px;color:var(--muted)}
+  .muted{color:var(--muted)}
+
+  .btn{
+    display:inline-flex;gap:10px;align-items:center;padding:10px 14px;border-radius:999px;border:none;
+    cursor:pointer;font-weight:800;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#111;
+    box-shadow:0 10px 30px rgba(255,90,95,0.14);
+  }
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#e6eef6}
+
+  /* profile upload */
+  .profile-upload{display:flex;align-items:center;gap:12px}
+  .avatar{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#13263a,#0b1724);display:grid;place-items:center;font-weight:700;color:#fff}
+
+  /* location badge */
+  .locBadge{display:inline-flex;gap:8px;align-items:center;background:rgba(0,0,0,0.25);padding:8px;border-radius:12px;font-size:13px;color:var(--muted)}
+
+  /* scrollable register area */
+  .reg-scroll{max-height:440px;overflow:auto;padding-right:8px}
+  .reg-scroll::-webkit-scrollbar{width:8px}
+  .reg-scroll::-webkit-scrollbar-thumb{background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:10px}
+
+  /* login / other helpers */
+  .switcher{margin-top:8px;font-size:13px;color:var(--muted);cursor:pointer}
+  .error{color:#ffb4b4;font-size:13px;margin-top:6px}
+  .successToast{
+    position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:linear-gradient(90deg,#16a34a,#4ade80);
+    color:#023020;padding:10px 14px;border-radius:12px;box-shadow:0 14px 40px rgba(2,6,23,0.5);display:none;font-weight:700;z-index:9999
+  }
+
+  /* ---------- right: animated background ---------- */
+  .visualCol{position:relative;min-height:560px;border-radius:16px;overflow:hidden}
+  .bgLayer{position:absolute;inset:0;display:block;pointer-events:none}
+  .slideshow{position:absolute;inset:0;overflow:hidden;z-index:2}
+  .slideshow img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:140%;height:140%;object-fit:cover;filter:brightness(.46) saturate(1.05);opacity:0;animation:slide 18s infinite linear}
+  .slideshow img:nth-child(1){animation-delay:0s}
+  .slideshow img:nth-child(2){animation-delay:6s}
+  .slideshow img:nth-child(3){animation-delay:12s}
+  @keyframes slide{0%{opacity:0;transform:translate(-50%,-50%) scale(1.06)}10%{opacity:1;transform:translate(-50%,-50%) scale(1.02)}30%{opacity:1}40%{opacity:0}100%{opacity:0}}
+  /* overlay gradient */
+  .visualOverlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(9,14,23,0.18), rgba(3,8,14,0.6));z-index:3;mix-blend-mode:multiply}
+
+  /* floating icons */
+  .floatIcons{position:absolute;inset:0;z-index:4;pointer-events:none}
+  .icon{position:absolute;opacity:0.95;filter:drop-shadow(0 8px 20px rgba(2,6,23,0.6))}
+  .ic1{left:12%;top:12%;transform:rotate(-8deg);animation:floaty 6s ease-in-out infinite}
+  .ic2{right:14%;top:20%;transform:rotate(6deg);animation:floaty 7s ease-in-out infinite}
+  .ic3{left:18%;bottom:18%;animation:floaty 8s ease-in-out infinite}
+  .ic4{right:22%;bottom:24%;animation:floaty 6.5s ease-in-out infinite}
+  @keyframes floaty{0%{transform:translateY(-8px) rotate(0deg)}50%{transform:translateY(8px) rotate(4deg)}100%{transform:translateY(-8px) rotate(0deg)}}
+
+  /* center badge */
+  .midCard{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:72%;padding:18px;border-radius:14px;background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));z-index:5;border:1px solid rgba(255,255,255,0.03)}
+  .midCard h3{color:#fff;margin:0 0 8px;font-size:18px}
+  .midCard p{color:var(--muted);margin:0 0 6px}
+
+  /* small screen */
+  @media (max-width:980px){
+    main{grid-template-columns:1fr; padding:20px}
+    .visualCol{order:-1;min-height:320px;margin-bottom:18px}
+  }
+  @media (max-width:520px){
+    .logoMark{width:48px;height:48px}
+    .logoMark strong{font-size:18px}
+  }
+
+  /* tiny helpers */
+  .hint{font-size:12px;color:var(--muted)}
+  .badgeUI{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700;margin-right:8px}
+</style>
+</head>
+<body>
+  <div class="successToast" id="toast">Saved — Redirecting...</div>
+
+  <main>
+    <!-- LEFT: form / brand -->
+    <div class="brandCol" role="region" aria-label="Trimetime sign in and registration">
+      <div class="logoRow">
+        <div class="logoMark" aria-hidden><strong>TR</strong></div>
+        <div>
+          <div class="brandTitle">TRIMETIME</div>
+          <div class="brandSub">Salon finder & booking — local offers</div>
+        </div>
+        <div style="margin-left:auto" class="locBadge" id="locMini" title="No location set">
+          <!-- small pin icon -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7z" stroke="#fff" stroke-opacity="0.9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="locMiniTxt" style="font-size:12px;color:#d6e6ff">Use location</span>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Sign in or register">
+        <button id="tabLogin" class="tabBtn active" role="tab" aria-selected="true">Login</button>
+        <button id="tabRegister" class="tabBtn" role="tab" aria-selected="false">Register</button>
+      </div>
+
+      <!-- LOGIN -->
+      <div id="loginCard" class="card" role="tabpanel">
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+        <label for="loginPwd">Password</label>
+        <input id="loginPwd" type="password" placeholder="••••••••" autocomplete="current-password"/>
+        <div style="display:flex;gap:10px;margin-top:12px;align-items:center">
+          <button class="btn" id="loginBtn" aria-label="Login now">
+            <!-- login icon -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 17l5-5-5-5" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 12H3" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Login
+          </button>
+          <button class="btn ghost" id="googleSim" title="Simulate sign in">Sign in (demo)</button>
+        </div>
+        <div class="switcher">Forgot password? <span class="hint">Use register to create a new account</span></div>
+      </div>
+
+      <!-- REGISTER -->
+      <div id="registerCard" class="card" style="display:none" role="tabpanel" aria-hidden="true">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div class="profile-upload">
+              <div id="avatarPreview" class="avatar">TR</div>
+              <div style="display:flex;flex-direction:column;">
+                <label class="small">Profile photo</label>
+                <input id="profilePic" type="file" accept="image/*" />
+              </div>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="hint">Quick tips</div>
+            <div class="muted" style="font-size:12px">Use your real email — used for bookings</div>
+          </div>
+        </div>
+
+        <div class="reg-scroll" id="regScroll">
+          <div class="row">
+            <div class="col">
+              <label for="fullName">Full name</label>
+              <input id="fullName" type="text" placeholder="Your name" />
+            </div>
+            <div class="col">
+              <label for="phone">Phone</label>
+              <input id="phone" type="text" placeholder="99999 99999" />
+            </div>
+          </div>
+
+          <label for="regEmail">Email</label>
+          <input id="regEmail" type="email" placeholder="you@example.com" />
+
+          <div class="row">
+            <div class="col">
+              <label for="regPwd">Password</label>
+              <input id="regPwd" type="password" placeholder="Create password" />
+            </div>
+            <div class="col">
+              <label for="gender">Gender</label>
+              <select id="gender">
+                <option value="">Prefer not to say</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="states">State</label>
+          <select id="states">
+            <!-- Full India states + UTs -->
+            <option value="">Select state</option>
+            <option>Andhra Pradesh</option>
+            <option>Arunachal Pradesh</option>
+            <option>Assam</option>
+            <option>Bihar</option>
+            <option>Chhattisgarh</option>
+            <option>Goa</option>
+            <option>Gujarat</option>
+            <option>Haryana</option>
+            <option>Himachal Pradesh</option>
+            <option>Jharkhand</option>
+            <option>Karnataka</option>
+            <option>Kerala</option>
+            <option>Madhya Pradesh</option>
+            <option>Maharashtra</option>
+            <option>Manipur</option>
+            <option>Meghalaya</option>
+            <option>Mizoram</option>
+            <option>Nagaland</option>
+            <option>Odisha</option>
+            <option>Punjab</option>
+            <option>Rajasthan</option>
+            <option>Sikkim</option>
+            <option>Tamil Nadu</option>
+            <option>Telangana</option>
+            <option>Tripura</option>
+            <option>Uttar Pradesh</option>
+            <option>Uttarakhand</option>
+            <option>West Bengal</option>
+            <option>Andaman and Nicobar</option>
+            <option>Chandigarh</option>
+            <option>Dadra and Nagar Haveli</option>
+            <option>Daman and Diu</option>
+            <option>Delhi</option>
+            <option>Jammu and Kashmir</option>
+            <option>Ladakh</option>
+            <option>Puducherry</option>
+          </select>
+
+          <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+            <button id="useLoc" class="btn ghost" type="button" title="Use browser location">
+              <!-- location icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Use my location
+            </button>
+            <div id="locStatus" class="hint">No coordinates yet</div>
+          </div>
+
+          <label for="servicesPref" style="margin-top:10px">Preferred Services</label>
+          <select id="servicesPref">
+            <option>Haircut</option>
+            <option>Beard Grooming</option>
+            <option>Hair Color</option>
+            <option>Spa</option>
+            <option>Facial</option>
+            <option>Makeup</option>
+          </select>
+
+          <label for="hairNotes" style="margin-top:10px">Any hair/skin notes</label>
+          <textarea id="hairNotes" placeholder="E.g., dandruff, hair fall, sensitive skin"></textarea>
+
+          <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+            <button id="registerBtn" class="btn">Create account</button>
+            <button id="resetBtn" class="btn ghost">Reset</button>
+          </div>
+
+          <div id="regError" class="error" style="display:none"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:8px" class="small muted">By registering you accept the <span style="color:var(--muted)">Trimetime Terms</span>.</div>
+    </div>
+
+    <!-- RIGHT: visual / slideshow -->
+    <div class="visualCol" aria-hidden="true">
+      <div class="bgLayer slideshow" aria-hidden>
+        <!-- keep your exact image names -->
+        <img src="login 2.jpeg" alt="salon styling image" />
+        <img src="Saloon 3000.jpeg" alt="salon interior" />
+        <img src="login1.jpeg" alt="head massage" />
+      </div>
+
+      <div class="visualOverlay"></div>
+
+      <!-- floating SVG icons to give 'salon vibe' -->
+      <div class="floatIcons" role="img" aria-label="decorative salon icons">
+        <svg class="icon ic1" width="96" height="96" viewBox="0 0 24 24" fill="none"><path d="M7 7c0 4 5 9 5 9s5-5 5-9a5 5 0 1 0-10 0z" stroke="#fff" stroke-opacity=".9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="icon ic2" width="88" height="88" viewBox="0 0 24 24" fill="none"><path d="M3 7h18M12 3v18" stroke="#fff" stroke-opacity=".85" stroke-width="1.1" stroke-linecap="round"/></svg>
+        <svg class="icon ic3" width="72" height="72" viewBox="0 0 24 24" fill="none"><path d="M12 2c4 0 8 2 8 6 0 4-4 8-8 14C8 16 4 12 4 8c0-4 4-6 8-6z" stroke="#fff" stroke-opacity=".9" stroke-width="1.1" stroke-linecap="round"/></svg>
+        <svg class="icon ic4" width="60" height="60" viewBox="0 0 24 24" fill="none"><path d="M7 20c.2-2.4 1.6-4 2-5 1-2 3-3 5-3s4 1 5 3c.4 1 .8 2.6 1 5" stroke="#fff" stroke-opacity=".7" stroke-width="1.1" stroke-linecap="round"/></svg>
+      </div>
+
+      <div class="midCard">
+        <h3>Welcome to Trimetime</h3>
+        <p class="muted">Book trusted salons nearby. Secure payments, verified reviews, instant offers.</p>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <span class="badgeUI">💇 Hair</span>
+          <span class="badgeUI">💈 Grooming</span>
+          <span class="badgeUI">🧖 Spa</span>
+          <span class="badgeUI">💅 Beauty</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<script>
+  /* ---------- tiny helpers ---------- */
+  const $ = id => document.getElementById(id);
+  function showToast(text, time=1600){
+    const t = $('toast'); t.textContent = text; t.style.display='block';
+    setTimeout(()=> t.style.display='none', time);
+  }
+
+  /* ---------- tabs ---------- */
+  const tabLogin = $('tabLogin'), tabRegister = $('tabRegister');
+  const loginCard = $('loginCard'), registerCard = $('registerCard');
+  tabLogin.addEventListener('click', ()=>{ tabLogin.classList.add('active'); tabRegister.classList.remove('active'); loginCard.style.display='block'; registerCard.style.display='none'; });
+  tabRegister.addEventListener('click', ()=>{ tabRegister.classList.add('active'); tabLogin.classList.remove('active'); registerCard.style.display='block'; loginCard.style.display='none'; $('regError').style.display='none'; });
+
+  /* ---------- profile image preview ---------- */
+  const profilePic = $('profilePic'), avatar = $('avatarPreview');
+  let profileDataURL = null;
+  profilePic.addEventListener('change', (e)=>{
+    const f = e.target.files && e.target.files[0];
+    if(!f) return;
+    const reader = new FileReader();
+    reader.onload = ()=> {
+      profileDataURL = reader.result;
+      avatar.style.backgroundImage = `url('${profileDataURL}')`;
+      avatar.textContent = '';
+    };
+    reader.readAsDataURL(f);
+  });
+
+  /* ---------- use my location ---------- */
+  const useLoc = $('useLoc'), locStatus = $('locStatus'), locMiniTxt = $('locMiniTxt');
+  useLoc.addEventListener('click', ()=>{
+    if(!navigator.geolocation){ locStatus.textContent='Geolocation not supported'; return;}
+    locStatus.textContent='Locating...';
+    navigator.geolocation.getCurrentPosition(pos=>{
+      const {latitude, longitude} = pos.coords;
+      locStatus.textContent = `Lat ${latitude.toFixed(4)}, Lon ${longitude.toFixed(4)}`;
+      $('locMiniTxt').textContent = 'Location set';
+      // save to hidden fields for registration
+      window._userLocation = {latitude, longitude};
+    }, err=>{
+      locStatus.textContent = 'Permission denied or unavailable';
+    }, {timeout:10000});
+  });
+
+  /* ---------- register / store user ---------- */
+  function clearRegForm(){
+    ['fullName','phone','regEmail','regPwd','gender','states','servicesPref','hairNotes','profilePic'].forEach(id=>{ const el=$(id); if(el) el.value=''; });
+    avatar.style.backgroundImage=''; avatar.textContent='TR'; profileDataURL=null; locStatus.textContent='No coordinates yet'; $('locMiniTxt').textContent='Use location';
+  }
+
+  $('resetBtn').addEventListener('click', (e)=>{ e.preventDefault(); clearRegForm(); showToast('Form cleared',900) });
+
+  $('registerBtn').addEventListener('click', (e)=>{
+    e.preventDefault();
+    const name = $('fullName').value.trim();
+    const phone = $('phone').value.trim();
+    const email = $('regEmail').value.trim().toLowerCase();
+    const pwd = $('regPwd').value;
+    const state = $('states').value;
+    const services = $('servicesPref').value;
+    const notes = $('hairNotes').value.trim();
+    const gender = $('gender').value;
+
+    // simple validation
+    if(!name || !phone || !email || !pwd){
+      const err = $('regError'); err.textContent = 'Please fill name, phone, email and password.'; err.style.display='block'; return;
+    }
+    // basic email pattern
+    if(!/^\S+@\S+\.\S+$/.test(email)){ const err=$('regError'); err.textContent='Enter a valid email.'; err.style.display='block'; return; }
+
+    // read existing users
+    const users = JSON.parse(localStorage.getItem('trim_users') || '[]');
+    if(users.find(u=>u.email === email)){ const err=$('regError'); err.textContent='Account with this email already exists. Use login.'; err.style.display='block'; return; }
+
+    const user = {
+      id: 'u_' + Date.now(),
+      name, phone, email, pwd, state, services, notes, gender,
+      location: window._userLocation || null,
+      avatar: profileDataURL || null,
+      createdAt: new Date().toISOString()
+    };
+    users.push(user);
+    localStorage.setItem('trim_users', JSON.stringify(users));
+
+    // auto-login: save active user
+    localStorage.setItem('trim_active_user', JSON.stringify({email: user.email, name: user.name}));
+
+    showToast('Account created',1400);
+    setTimeout(()=>{ window.location.href = 'dashboard.html'; }, 900);
+  });
+
+  /* ---------- login ---------- */
+  $('loginBtn').addEventListener('click', (e)=>{
+    e.preventDefault();
+    const email = $('loginEmail').value.trim().toLowerCase();
+    const pwd = $('loginPwd').value;
+    if(!email || !pwd){ alert('Enter email and password.'); return; }
+    const users = JSON.parse(localStorage.getItem('trim_users') || '[]');
+    const found = users.find(u => u.email === email && u.pwd === pwd);
+    if(!found){ alert('Invalid credentials. Try demo sign in or register.'); return; }
+    localStorage.setItem('trim_active_user', JSON.stringify({email: found.email, name: found.name}));
+    showToast('Welcome back, ' + (found.name.split(' ')[0] || found.name), 1200);
+    setTimeout(()=> window.location.href='dashboard.html', 900);
+  });
+
+  /* ---------- demo signin (simulate) ---------- */
+  $('googleSim').addEventListener('click', ()=>{
+    // create fast demo user and login
+    const demo = { id: 'demo_' + Date.now(), name: 'Demo User', email: 'demo@trimetime.local', pwd: 'demo' };
+    const users = JSON.parse(localStorage.getItem('trim_users') || '[]');
+    if(!users.find(u=>u.email === demo.email)) { users.push(demo); localStorage.setItem('trim_users', JSON.stringify(users)); }
+    localStorage.setItem('trim_active_user', JSON.stringify({email: demo.email, name: demo.name}));
+    showToast('Signed in as Demo',900);
+    setTimeout(()=> window.location.href='dashboard.html', 900);
+  });
+
+  /* ---------- on load: show active user if any ---------- */
+  (function init(){
+    const active = JSON.parse(localStorage.getItem('trim_active_user') || 'null');
+    if(active && active.name){
+      // show small greeting
+      $('loginEmail').value = active.email || '';
+      // update mini location text if user location exists in PROFILE (optional)
+      const users = JSON.parse(localStorage.getItem('trim_users') || '[]');
+      const me = users.find(u => active.email && u.email === active.email);
+      if(me && me.location){ $('locMiniTxt').textContent = 'Location set'; }
+    }
+  })();
+
+  /* ---------- small accessibility: keyboard enter to login ---------- */
+  ['loginEmail','loginPwd'].forEach(id=>{ $(id).addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ $('loginBtn').click(); } }); });
+
+  /* ---------- tiny polish: scroll register area into view when tab clicked ---------- */
+  tabRegister.addEventListener('click', ()=> { setTimeout(()=> $('regScroll').scrollTop = 0, 80); });
+
+  /* ---------- show mini location if previously set ---------- */
+  (function refreshMiniLoc(){
+    const act = JSON.parse(localStorage.getItem('trim_active_user') || 'null');
+    if(act){
+      const users = JSON.parse(localStorage.getItem('trim_users') || '[]');
+      const u = users.find(x=>x.email === act.email);
+      if(u && u.location){ $('locMiniTxt').textContent = 'Location saved'; }
+    }
+  })();
+</script>
+</body>
+</html>

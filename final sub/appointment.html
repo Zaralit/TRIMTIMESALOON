@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>My Appointments — Trimetime</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --bg-deep: #0a0b0d;
+    --card-dark: #14161a;
+    --accent: #fb7185; /* Rose */
+    --accent-dim: rgba(251, 113, 133, 0.1);
+    --gold: #c5a059;
+    --text-main: #ffffff;
+    --text-dim: #a0a6ad;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+body { 
+    margin: 0; background: var(--bg-deep); color: var(--text-main); 
+    font-family: 'Inter', sans-serif; overflow-x: hidden;
+}
+
+/* Glassmorphism Header */
+.topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10, 11, 13, 0.8);
+    backdrop-filter: blur(15px);
+    display: flex; align-items: center; padding: 15px 40px;
+    border-bottom: 1px solid var(--border);
+}
+.brand { font-family: 'Marcellus', serif; font-size: 20px; letter-spacing: 4px; color: var(--gold); }
+.nav-btn {
+    background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+}
+.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.wrap { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+/* Dashboard Header */
+.header-flex { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+.title-group h1 { font-family: 'Marcellus', serif; font-size: 32px; margin: 0; color: var(--text-main); }
+.user-badge { font-size: 11px; color: var(--accent); background: var(--accent-dim); padding: 4px 10px; border-radius: 99px; display: inline-block; margin-top: 8px; }
+
+/* Control Panel */
+.controls {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 15px; margin-bottom: 30px;
+}
+.search-box { position: relative; }
+.search-box i { position: absolute; left: 15px; top: 14px; color: var(--text-dim); font-size: 14px; }
+.search-box input {
+    width: 100%; background: var(--card-dark); border: 1px solid var(--border);
+    padding: 12px 12px 12px 45px; border-radius: 6px; color: #fff; font-size: 14px;
+}
+.custom-select, .date-input {
+    background: var(--card-dark); border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 6px; cursor: pointer;
+}
+
+/* Tabs */
+.tabs { display: flex; gap: 20px; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
+.tab {
+    padding: 12px 5px; background: none; border: none; color: var(--text-dim);
+    font-size: 13px; font-weight: 600; cursor: pointer; position: relative;
+}
+.tab.active { color: var(--accent); }
+.tab.active::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--accent);
+}
+
+/* Appointment Cards */
+.list { display: grid; gap: 16px; }
+.card {
+    background: var(--card-dark); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 20px;
+    transition: 0.3s;
+}
+.card:hover { border-color: var(--accent); transform: translateX(5px); }
+
+.date-pill {
+    background: var(--glass); padding: 10px; border-radius: 8px; text-align: center; min-width: 70px;
+    border: 1px solid var(--border);
+}
+.date-pill .day { font-size: 18px; font-weight: 800; color: var(--gold); display: block; }
+.date-pill .month { font-size: 10px; text-transform: uppercase; color: var(--text-dim); }
+
+.salon-info b { font-family: 'Marcellus', serif; font-size: 18px; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+.salon-info span { font-size: 12px; color: var(--text-dim); }
+.status-tag { font-size: 10px; text-transform: uppercase; font-weight: 700; padding: 4px 8px; border-radius: 4px; margin-top: 8px; display: inline-block; }
+.status-upcoming { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.status-past { background: var(--glass); color: var(--text-dim); }
+
+.price-box { text-align: right; }
+.price-box .amt { font-size: 20px; font-weight: 700; color: var(--gold); }
+.price-box .token { font-size: 10px; color: var(--text-dim); display: block; font-family: monospace; }
+
+.empty { text-align: center; padding: 100px 0; color: var(--text-dim); }
+.empty i { font-size: 48px; margin-bottom: 20px; opacity: 0.3; }
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="brand">TRIMETIME</div>
+  <div style="margin-left:auto">
+    <button class="nav-btn" onclick="location.href='dashboard.html'">Back to Salons</button>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="header-flex">
+    <div class="title-group">
+      <h1>My Rituals</h1>
+      <div id="userLabel" class="user-badge">Guest Account</div>
+    </div>
+    <div id="counts" style="font-size: 12px; color: var(--text-dim);">Scanning for bookings...</div>
+  </div>
+
+  <div class="tabs">
+    <button id="tab7" class="tab active">Recent 7 Days</button>
+    <button id="tabAll" class="tab">Full History</button>
+    <button id="tabUpcoming" class="tab">Upcoming Only</button>
+  </div>
+
+  <div class="controls">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="search" placeholder="Search salon or service...">
+    </div>
+    <input id="datePicker" type="date" class="date-input">
+    <select id="sort" class="custom-select">
+      <option value="new">Sort: Newest First</option>
+      <option value="amount">Sort: Highest Value</option>
+    </select>
+  </div>
+
+  <section id="listing" class="list"></section>
+  <div id="empty" class="empty" style="display:none">
+    <i class="fa-solid fa-calendar-xmark"></i>
+    <p>No rituals found for this selection.</p>
+  </div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey:"AIzaSyC11HL4b2k0nAF8vOX_HbQ3F9iLRNZ8tdc",
+    authDomain:"login-4570c.firebaseapp.com",
+    databaseURL:"https://login-4570c-default-rtdb.firebaseio.com",
+    projectId:"login-4570c",
+    storageBucket:"login-4570c.appspot.com",
+    messagingSenderId:"653554663492",
+    appId:"1:653554663492:web:be0ee49b01be551b1ffc11"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let bookings = [];
+let activeUser = JSON.parse(localStorage.getItem("trim_active_user") || "null");
+let activeTab = "7";
+
+function render() {
+    const listEl = document.getElementById("listing");
+    const emptyEl = document.getElementById("empty");
+    const q = document.getElementById("search").value.toLowerCase();
+    const sort = document.getElementById("sort").value;
+    
+    // Logic: Filter by User
+    let filtered = bookings.filter(b => !activeUser || b.userEmail === activeUser.email);
+
+    // Logic: Tabs
+    const now = new Date();
+    if(activeTab === "7") {
+        filtered = filtered.filter(b => (now - new Date(b.createdAt)) / 86400000 <= 7);
+    } else if (activeTab === "upcoming") {
+        filtered = filtered.filter(b => new Date(b.date) >= now.setHours(0,0,0,0));
+    }
+
+    // Logic: Search
+    if(q) filtered = filtered.filter(b => b.salon.toLowerCase().includes(q));
+
+    // Logic: Sort
+    if(sort === "new") filtered.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+    else filtered.sort((a,b) => b.finalAmount - a.finalAmount);
+
+    // Render HTML
+    listEl.innerHTML = "";
+    emptyEl.style.display = filtered.length ? "none" : "block";
+    document.getElementById("counts").innerText = `${filtered.length} Appointments Found`;
+
+    filtered.forEach(b => {
+        const d = new Date(b.date);
+        const isUpcoming = d >= new Date().setHours(0,0,0,0);
+        
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <div class="date-pill">
+                <span class="day">${d.getDate() || '??'}</span>
+                <span class="month">${d.toLocaleString('en-US', {month: 'short'})}</span>
+            </div>
+            <div class="salon-info">
+                <b>${b.salon}</b>
+                <span><i class="fa-regular fa-clock"></i> ${b.time}</span><br>
+                <div class="status-tag ${isUpcoming ? 'status-upcoming' : 'status-past'}">
+                    ${isUpcoming ? 'Confirmed' : 'Completed'}
+                </div>
+            </div>
+            <div class="price-box">
+                <div class="amt">₹${b.finalAmount}</div>
+                <span class="token">${b.token}</span>
+            </div>
+        `;
+        listEl.appendChild(card);
+    });
+}
+
+// Firebase Sync
+onValue(ref(db, "appointments"), snap => {
+    const data = snap.val();
+    bookings = data ? Object.values(data) : [];
+    render();
+});
+
+// UI Events
+document.getElementById("tab7").onclick = (e) => { switchTab(e, "7"); };
+document.getElementById("tabAll").onclick = (e) => { switchTab(e, "all"); };
+document.getElementById("tabUpcoming").onclick = (e) => { switchTab(e, "upcoming"); };
+document.getElementById("search").oninput = render;
+document.getElementById("sort").onchange = render;
+
+function switchTab(e, mode) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    e.target.classList.add('active');
+    activeTab = mode;
+    render();
+}
+
+if(activeUser) document.getElementById("userLabel").innerText = activeUser.email;
+</script>
+</body>
+</html>

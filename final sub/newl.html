@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Trimetime - Login / Register</title>
+
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
+  body { height:100vh; width:100%; overflow-x:hidden; background:#f5f5f5; }
+
+  /* Scrollable page */
+  .page {
+    width:100%;
+    min-height:100vh;
+    overflow-y:auto;
+    padding-bottom:60px;
+  }
+
+  /* Background Slideshow */
+  .slideshow {
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    z-index:-2;
+  }
+  .slideshow img {
+    width:100%; height:100%;
+    object-fit:cover;
+    position:absolute;
+    opacity:0;
+    animation: slide 18s infinite;
+  }
+  .slideshow img:nth-child(1){ animation-delay:0s; }
+  .slideshow img:nth-child(2){ animation-delay:6s; }
+  .slideshow img:nth-child(3){ animation-delay:12s; }
+
+  @keyframes slide{
+    0%{opacity:0;}
+    10%{opacity:1;}
+    30%{opacity:1;}
+    40%{opacity:0;}
+    100%{opacity:0;}
+  }
+
+  /* Navbar */
+  .navbar {
+    width:100%;
+    background:rgba(0,0,0,0.7);
+    padding:15px 20px;
+    position:fixed;
+    top:0; left:0;
+    z-index:10;
+    backdrop-filter:blur(5px);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .navbar h1 {
+    color:white;
+    font-size:28px;
+    font-weight:800;
+  }
+
+  /* Admin Icon */
+  .admin-btn {
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+    padding:6px 10px;
+    border-radius:6px;
+    background:rgba(255,255,255,0.15);
+  }
+  .admin-btn:hover {
+    background:rgba(255,255,255,0.3);
+  }
+
+  /* Form Container */
+  .container {
+    width:380px;
+    padding:25px;
+    background:rgba(255,255,255,0.92);
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    margin:120px auto;
+  }
+
+  h2 { text-align:center; margin-bottom:15px; }
+
+  label {
+    font-weight:bold;
+    margin-top:10px;
+    display:block;
+  }
+
+  input, select {
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    border-radius:6px;
+    border:1px solid #ccc;
+  }
+
+  button {
+    width:100%;
+    padding:12px;
+    background:black;
+    color:white;
+    border:none;
+    border-radius:6px;
+    margin-top:12px;
+    cursor:pointer;
+    font-size:16px;
+  }
+
+  .switch {
+    margin-top:12px;
+    text-align:center;
+    font-size:14px;
+    color:#007bff;
+    cursor:pointer;
+  }
+
+  /* Location button */
+  #locBtn {
+    background:#222;
+    color:white;
+    margin-top:10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Slideshow -->
+  <div class="slideshow">
+    <img src="login%202.jpeg" />
+    <img src="Saloon%203000.jpeg" />
+    <img src="login1.jpeg" />
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>TRIMETIME</h1>
+    <div class="admin-btn" onclick="showAdminLogin()">🛠 Admin</div>
+  </div>
+
+  <!-- Login Box -->
+  <div class="container" id="loginBox">
+    <h2>Login</h2>
+    <label>Email</label>
+    <input type="email" id="loginEmail" placeholder="Enter Email" />
+
+    <label>Password</label>
+    <input type="password" id="loginPass" placeholder="Enter Password" />
+
+    <button onclick="loginUser()">Login</button>
+
+    <div class="switch" onclick="showRegister()">Don't have an account? Register</div>
+  </div>
+
+  <!-- Admin Login Box -->
+  <div class="container" id="adminBox" style="display:none; margin-top:120px;">
+    <h2>Admin Login</h2>
+
+    <label>Admin Email</label>
+    <input type="email" id="adminEmail" placeholder="Enter Admin Email" />
+
+    <label>Password</label>
+    <input type="password" id="adminPass" placeholder="Enter Admin Password" />
+
+    <button onclick="loginAdmin()">Login as Admin</button>
+
+    <div class="switch" onclick="hideAdminLogin()">← Back to User Login</div>
+  </div>
+
+  <!-- Registration Box -->
+  <div class="container" id="registerBox" style="display:none;">
+    <h2>Create Profile</h2>
+
+    <label>Full Name</label>
+    <input type="text" id="regName" placeholder="Your Name" />
+
+    <label>Phone Number</label>
+    <input type="text" id="regPhone" placeholder="99999 99999" />
+
+    <label>Email</label>
+    <input type="email" id="regEmail" placeholder="Enter Email" />
+
+    <label>Password</label>
+    <input type="password" id="regPass" placeholder="Create Password" />
+
+    <label>State</label>
+    <select id="regState">
+      <option value="">Select State</option>
+      <option>Maharashtra</option>
+      <option>Gujarat</option>
+      <option>Rajasthan</option>
+      <option>Karnataka</option>
+      <option>Delhi</option>
+      <option>Punjab</option>
+      <option>Uttar Pradesh</option>
+      <option>Goa</option>
+      <option>Tamil Nadu</option>
+      <option>Bihar</option>
+      <option>Jharkhand</option>
+      <option>West Bengal</option>
+      <option>Assam</option>
+      <option>Kerala</option>
+      <option>Madhya Pradesh</option>
+    </select>
+
+    <label>Preferred Services</label>
+    <select id="regService">
+      <option>Haircut</option>
+      <option>Beard Grooming</option>
+      <option>Hair Color</option>
+      <option>Spa</option>
+    </select>
+
+    <label>Any Hair Problems?</label>
+    <input type="text" id="regProblem" placeholder="e.g., dandruff, hair fall" />
+
+    <label>Preferred Stylist</label>
+    <input type="text" id="regStylist" placeholder="Stylist Name (optional)" />
+
+    <button onclick="registerUser()">Register</button>
+
+    <button onclick="getLocation()" id="locBtn">Use My Location</button>
+
+    <div class="switch" onclick="showLogin()">Already have an account? Login</div>
+  </div>
+
+</div>
+
+<script>
+function showRegister(){
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("adminBox").style.display = "none";
+  document.getElementById("registerBox").style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showLogin(){
+  document.getElementById("registerBox").style.display = "none";
+  document.getElementById("adminBox").style.display = "none";
+  document.getElementById("loginBox").style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function showAdminLogin(){
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("registerBox").style.display = "none";
+  document.getElementById("adminBox").style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function hideAdminLogin(){
+  document.getElementById("adminBox").style.display = "none";
+  document.getElementById("loginBox").style.display = "block";
+}
+
+/* Redirect after login */
+function loginUser(){
+  alert("Login Successful!");
+  window.location.href = "dashboard.html";
+}
+
+/* Redirect after admin login */
+function loginAdmin(){
+  alert("Admin Login Successful!");
+  window.location.href = "admin-dashboard.html";
+}
+
+/* Redirect after register */
+function registerUser(){
+  alert("Registration Successful!");
+  window.location.href = "dashboard.html";
+}
+
+/* Get Location */
+function getLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        alert("Location Accessed ✔\nLat: " + pos.coords.latitude + "\nLng: " + pos.coords.longitude);
+      },
+      err => {
+        alert("Location access denied ❌");
+      }
+    );
+  } else {
+    alert("Your device does not support location.");
+  }
+}
+</script>
+
+</body>
+</html>

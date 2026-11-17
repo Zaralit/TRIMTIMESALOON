@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trimetime | Luxury Grooming</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #ffffff;
+      --accent: #d4af37; 
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Montserrat', sans-serif; }
+    
+    body { 
+      height:100vh; 
+      width:100%; 
+      overflow:hidden; 
+      background:#000;
+      color: white;
+    }
+
+    /* Animated Background */
+    .slideshow {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      z-index:-2;
+    }
+    .slideshow::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%);
+      z-index: -1;
+    }
+    .slideshow img {
+      width:100%; height:100%;
+      object-fit:cover;
+      position:absolute;
+      opacity:0;
+      animation: slide 18s infinite ease-in-out;
+    }
+    .slideshow img:nth-child(1){ animation-delay:0s; }
+    .slideshow img:nth-child(2){ animation-delay:6s; }
+    .slideshow img:nth-child(3){ animation-delay:12s; }
+
+    @keyframes slide{
+      0%{opacity:0; transform: scale(1.1);}
+      15%{opacity:1;}
+      35%{opacity:1;}
+      50%{opacity:0; transform: scale(1);}
+      100%{opacity:0;}
+    }
+
+    /* Navbar */
+    .navbar {
+      width:100%;
+      padding:40px 60px;
+      position:fixed;
+      top:0; left:0;
+      z-index:10;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .navbar h1 {
+      font-size:24px;
+      font-weight:900;
+      letter-spacing: 8px;
+      color: var(--primary);
+      text-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+
+    .admin-btn {
+      font-size:11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor:pointer;
+      padding:12px 24px;
+      border-radius:2px; /* Sharp luxury look */
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      transition: all 0.5s;
+    }
+    .admin-btn:hover { background: var(--primary); color: black; }
+
+    /* Centering the Box */
+    .page {
+      width:100%;
+      height:100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    .container {
+      width:100%;
+      max-width: 440px;
+      padding:60px 50px;
+      background: rgba(10, 10, 10, 0.7);
+      backdrop-filter: blur(40px);
+      border-radius: 4px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 { text-align:center; margin-bottom:40px; font-weight: 300; letter-spacing: 4px; font-size: 22px; text-transform: uppercase; }
+    
+    .input-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+    .input-group i {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent);
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    input, select {
+      width:100%;
+      padding:12px 10px 12px 35px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--glass-border);
+      color: white;
+      outline: none;
+      transition: 0.4s;
+      font-size: 14px;
+    }
+    input:focus { border-bottom: 1px solid var(--accent); }
+
+    button {
+      width:100%;
+      padding:18px;
+      background: var(--primary);
+      color: black;
+      border:none;
+      border-radius:2px;
+      margin-top:20px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      transition: all 0.4s ease;
+    }
+    button:hover { letter-spacing: 5px; background: var(--accent); }
+
+    .google-btn {
+      background: transparent !important;
+      color: white !important;
+      border: 1px solid var(--glass-border) !important;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .google-btn img { width: 18px; height: 18px; }
+
+    .switch {
+      margin-top:30px;
+      text-align:center;
+      font-size:11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.4);
+      cursor:pointer;
+    }
+    .switch b { color: var(--accent); margin-left: 5px; }
+
+    #locBtn {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      margin-top: 15px;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .page::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="slideshow">
+  <img src="login%202.jpeg" />
+  <img src="Saloon%203000.jpeg" />
+  <img src="login1.jpeg" />
+</div>
+
+<div class="navbar">
+  <h1>TRIMETIME</h1>
+  <div class="admin-btn" onclick="showAdminLogin()"><i class="fa-solid fa-user-tie" style="margin-right:8px"></i> Staff Portal</div>
+</div>
+
+<div class="page">
+  <div class="container" id="loginBox">
+    <h2>Client Login</h2>
+    <div class="input-group">
+      <i class="fa-solid fa-at"></i>
+      <input type="email" id="loginEmail" placeholder="Email Address" />
+    </div>
+    <div class="input-group">
+      <i class="fa-solid fa-key"></i>
+      <input type="password" id="loginPass" placeholder="Password" />
+    </div>
+    <button onclick="loginUser()">Sign In</button>
+    
+    <button class="google-btn" onclick="googleLogin()">
+       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+       Continue with Google
+    </button>
+    <div class="switch" onclick="showRegister()">New here? <b>Reserve Spot</b></div>
+  </div>
+
+  <div class="container" id="adminBox" style="display:none">
+    <h2>Staff Access</h2>
+    <div class="input-group">
+      <i class="fa-solid fa-shield-halved"></i>
+      <input type="email" id="adminEmail" placeholder="Internal ID" />
+    </div>
+    <div class="input-group">
+      <i class="fa-solid fa-lock"></i>
+      <input type="password" id="adminPass" placeholder="Access Key" />
+    </div>
+    <button onclick="loginAdmin()">Authorize</button>
+    <div class="switch" onclick="hideAdminLogin()"><i class="fa-solid fa-chevron-left"></i> Back to login</div>
+  </div>
+
+  <div class="container" id="registerBox" style="display:none">
+    <h2>Join the Club</h2>
+    <div class="input-group">
+      <i class="fa-solid fa-user-ninja"></i>
+      <input type="text" id="regName" placeholder="Full Name" />
+    </div>
+    <div class="form-row">
+      <div class="input-group">
+        <i class="fa-solid fa-phone"></i>
+        <input type="text" id="regPhone" placeholder="Mobile" />
+      </div>
+      <div class="input-group">
+        <i class="fa-solid fa-map-pin"></i>
+        <select id="regState">
+          <option value="" disabled selected>Region</option>
+          <option>Maharashtra</option>
+          <option>Gujarat</option>
+          <option>Rajasthan</option>
+        </select>
+      </div>
+    </div>
+    <div class="input-group">
+      <i class="fa-solid fa-envelope"></i>
+      <input type="email" id="regEmail" placeholder="Email" />
+    </div>
+    <div class="input-group">
+      <i class="fa-solid fa-lock"></i>
+      <input type="password" id="regPass" placeholder="Secure Password" />
+    </div>
+    <div class="input-group">
+      <i class="fa-solid fa-scissors"></i>
+      <select id="regService">
+        <option>Standard Haircut</option>
+        <option>Signature Beard Grooming</option>
+        <option>Color & Treatment</option>
+        <option>Executive Spa</option>
+      </select>
+    </div>
+    <button onclick="registerUser()">Complete Membership</button>
+    <button onclick="getLocation()" id="locBtn"><i class="fa-solid fa-location-arrow"></i> Find Nearest Salon</button>
+    <div class="switch" onclick="showLogin()">Already a member? <b>Sign In</b></div>
+  </div>
+</div>
+
+<script>
+// UI Management
+const loginBox = document.getElementById('loginBox');
+const adminBox = document.getElementById('adminBox');
+const registerBox = document.getElementById('registerBox');
+
+function showRegister(){
+  loginBox.style.display = "none";
+  adminBox.style.display = "none";
+  registerBox.style.display = "block";
+}
+function showLogin(){
+  registerBox.style.display = "none";
+  adminBox.style.display = "none";
+  loginBox.style.display = "block";
+}
+function showAdminLogin(){
+  loginBox.style.display = "none";
+  registerBox.style.display = "none";
+  adminBox.style.display = "block";
+}
+function hideAdminLogin(){
+  adminBox.style.display = "none";
+  loginBox.style.display = "block";
+}
+function getLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      pos=>alert("Salon coordinates synced."),
+      err=>alert("Please enable location services.")
+    );
+  }
+}
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC11HL4b2k0nAF8vOX_HbQ3F9iLRNZ8tdc",
+    authDomain: "login-4570c.firebaseapp.com",
+    projectId: "login-4570c",
+    storageBucket: "login-4570c.firebasestorage.app",
+    messagingSenderId: "653554663492",
+    appId: "1:653554663492:web:be0ee49b01be551b1ffc11",
+    measurementId: "G-JE06J0PYTT"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.loginUser = function () {
+    signInWithEmailAndPassword(auth, loginEmail.value, loginPass.value)
+      .then(() => { window.location.href = "dashboard.html"; })
+      .catch(err => alert(err.message));
+  };
+
+  window.registerUser = function () {
+    createUserWithEmailAndPassword(auth, regEmail.value, regPass.value)
+      .then(() => { window.location.href = "dashboard.html"; })
+      .catch(err => alert(err.message));
+  };
+
+  window.loginAdmin = function () {
+    if(adminEmail.value !== "admin@gmail.com"){ alert("Access Denied."); return; }
+    signInWithEmailAndPassword(auth, adminEmail.value, adminPass.value)
+      .then(() => { window.location.href = "admin-dashboard.html"; })
+      .catch(err => alert(err.message));
+  };
+
+  window.googleLogin = function () {
+    signInWithPopup(auth, new GoogleAuthProvider())
+      .then(() => { window.location.href = "dashboard.html"; })
+      .catch((error) => alert(error.message));
+  };
+</script>
+
+</body>
+</html>

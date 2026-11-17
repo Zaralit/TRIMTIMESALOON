@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Studio Luxe Salon | Trimetime Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --bg: #0f1113;        /* Dark Charcoal */
+    --card-bg: #1a1d21;   /* Lighter Slate */
+    --accent: #d4af37;    /* Classic Gold */
+    --accent-hover: #b8962e;
+    --text-main: #ffffff;
+    --text-muted: #a0a0a0;
+    --border: rgba(255, 255, 255, 0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    background-color: var(--bg); 
+    color: var(--text-main); 
+    font-family: 'Inter', sans-serif; 
+    line-height: 1.6;
+    background-image: radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+  }
+
+  /* Premium Header */
+  .topbar {
+    position: sticky; top: 0; z-index: 1000;
+    background: rgba(15, 17, 19, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand { font-family: 'Marcellus', serif; font-size: 24px; letter-spacing: 3px; color: var(--accent); }
+  .back-link { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: 0.3s; }
+  .back-link:hover { color: var(--accent); }
+
+  .page { max-width: 1200px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1fr 380px; gap: 30px; }
+
+  /* Hero Section - Elevated */
+  .hero {
+    grid-column: 1 / -1;
+    height: 350px; border-radius: 24px; overflow: hidden; position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+  .hero img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
+  .hero-content {
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    padding: 40px; background: linear-gradient(to top, rgba(15,17,19,1), transparent);
+  }
+  .hero-title { font-family: 'Marcellus', serif; font-size: 38px; margin-bottom: 10px; }
+  .badges { display: flex; gap: 10px; }
+  .badge { background: rgba(212, 175, 55, 0.2); color: var(--accent); padding: 5px 15px; border-radius: 99px; font-size: 12px; font-weight: 600; border: 1px solid var(--accent); }
+
+  /* Content Cards */
+  .card { 
+    background: var(--card-bg); border-radius: 20px; padding: 25px; 
+    border: 1px solid var(--border); margin-bottom: 25px; 
+  }
+  h3 { font-family: 'Marcellus', serif; margin-bottom: 20px; color: var(--accent); letter-spacing: 1px; }
+
+  /* Service Category Tabs */
+  .cat-tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 20px; }
+  .cat-btn {
+    background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 10px 18px; border-radius: 12px; cursor: pointer; white-space: nowrap;
+    display: flex; align-items: center; gap: 8px; font-size: 13px; transition: 0.3s;
+  }
+  .cat-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
+
+  /* Service Items */
+  .service-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 0; border-bottom: 1px solid var(--border);
+  }
+  .svc-name { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+  .svc-meta { font-size: 12px; color: var(--text-muted); }
+  .svc-price { color: var(--accent); font-weight: 700; font-size: 18px; margin-top: 5px; }
+  
+  .btn-add {
+    background: transparent; color: var(--accent); border: 1px solid var(--accent);
+    padding: 8px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;
+    transition: 0.3s;
+  }
+  .btn-add:hover { background: var(--accent); color: #000; }
+
+  /* Right Sidebar / Cart */
+  .sidebar-inner { position: sticky; top: 100px; }
+  .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 14px; }
+  .remove-btn { color: #ff4d4d; cursor: pointer; font-size: 11px; text-transform: uppercase; margin-left: 10px; }
+  
+  .total-row { display: flex; justify-content: space-between; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
+  .grand-total { font-size: 20px; font-weight: 700; color: var(--accent); margin-top: 10px; }
+
+  /* Inputs */
+  .field { margin-bottom: 15px; }
+  .field label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
+  input, select, textarea {
+    width: 100%; background: #25292e; border: 1px solid var(--border); 
+    padding: 12px; border-radius: 10px; color: #fff; outline: none;
+  }
+  input:focus { border-color: var(--accent); }
+
+  .btn-book {
+    width: 100%; padding: 18px; background: var(--accent); color: #000;
+    border: none; border-radius: 12px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 2px; cursor: pointer; margin-top: 20px; transition: 0.3s;
+  }
+  .btn-book:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+  @media(max-width: 900px) {
+    .page { grid-template-columns: 1fr; }
+    .hero { height: 250px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">TRIMETIME</div>
+  <a href="dashboard.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> BACK TO SALONS</a>
+</header>
+
+<main class="page">
+  <section class="hero">
+    <img src="studiols.png" alt="Salon Front">
+    <div class="hero-content">
+      <div class="badges">
+        <span class="badge"><i class="fa-solid fa-star"></i> 4.7 (230+)</span>
+        <span class="badge"><i class="fa-solid fa-certificate"></i> PREMIUM UNISEX</span>
+      </div>
+      <h1 class="hero-title">Studio Luxe Salon</h1>
+      <p style="color: var(--text-muted);"><i class="fa-solid fa-location-dot"></i> Mira Road, Maharashtra</p>
+    </div>
+  </section>
+
+  <div class="main-content">
+    <div class="card">
+      <h3>The Experience</h3>
+      <p style="color: var(--text-muted); font-size: 14px;">
+        A sanctuary of style. We combine traditional artistry with modern techniques to ensure you leave looking your absolute best. 
+        Specializing in precision cuts, luxury head spas, and executive grooming.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Menu & Rituals</h3>
+      <div class="cat-tabs" id="catTabs">
+        <button class="cat-btn active" data-cat="all"><i class="fa-solid fa-border-all"></i> All</button>
+        <button class="cat-btn" data-cat="hair"><i class="fa-solid fa-scissors"></i> Hair</button>
+        <button class="cat-btn" data-cat="spa"><i class="fa-solid fa-spa"></i> Spa</button>
+        <button class="cat-btn" data-cat="grooming"><i class="fa-solid fa-user-tie"></i> Grooming</button>
+        <button class="cat-btn" data-cat="facial"><i class="fa-solid fa-face-smile"></i> Facials</button>
+      </div>
+      
+      <div id="serviceList">
+        </div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="card">
+        <h3>Booking Summary</h3>
+        <div id="cartItems" style="min-height: 50px;">
+          <p style="color: var(--text-muted); font-size: 13px;">No services selected...</p>
+        </div>
+
+        <div class="total-row">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">₹0</span>
+        </div>
+        <div class="total-row" style="color: #4ade80;">
+          <span>Member Discount (20%)</span>
+          <span id="cartDiscount">-₹0</span>
+        </div>
+        <div class="total-row grand-total">
+          <span>Total</span>
+          <span id="cartPayable">₹0</span>
+        </div>
+
+        <div class="field" style="margin-top: 25px;">
+          <label><i class="fa-regular fa-calendar"></i> Appointment Date</label>
+          <input type="date" id="visitDate">
+        </div>
+        
+        <div class="field">
+          <label><i class="fa-regular fa-clock"></i> Preferred Time</label>
+          <select id="visitTime">
+            <option value="">Select a Slot</option>
+            <option>10:00 AM – 11:30 AM</option>
+            <option>12:00 PM – 01:30 PM</option>
+            <option>03:00 PM – 04:30 PM</option>
+            <option>05:00 PM – 06:30 PM</option>
+            <option>07:00 PM – 08:30 PM</option>
+          </select>
+        </div>
+
+        <button class="btn-book" onclick="bookNow()">Confirm Appointment</button>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey:"AIzaSyC11HL4b2k0nAF8vOX_HbQ3F9iLRNZ8tdc",
+    authDomain:"login-4570c.firebaseapp.com",
+    databaseURL:"https://login-4570c-default-rtdb.firebaseio.com",
+    projectId:"login-4570c",
+    storageBucket:"login-4570c.firebasestorage.app",
+    appId:"1:653554663492:web:be0ee49b01be551b1ffc11"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const services = [
+    {id:'s1', name:'Executive Haircut', cat:'hair', price:499, duration:'45 min'},
+    {id:'s2', name:'Luxe Global Color', cat:'hair', price:1899, duration:'120 min'},
+    {id:'s3', name:'Signature Beard Grooming', cat:'grooming', price:299, duration:'30 min'},
+    {id:'s4', name:'Volcanic Ash Facial', cat:'facial', price:1299, duration:'60 min'},
+    {id:'s5', name:'Stress-Relief Head Spa', cat:'spa', price:999, duration:'45 min'}
+  ];
+
+  let currentCat = 'all';
+  let cart = {};
+
+  function renderServices() {
+    const list = document.getElementById('serviceList');
+    list.innerHTML = '';
+    const filtered = services.filter(s => currentCat === 'all' || s.cat === currentCat);
+    
+    filtered.forEach(s => {
+      list.innerHTML += `
+        <div class="service-item">
+          <div>
+            <div class="svc-name">${s.name}</div>
+            <div class="svc-meta"><i class="fa-regular fa-clock"></i> ${s.duration}</div>
+            <div class="svc-price">₹${s.price}</div>
+          </div>
+          <button class="btn-add" onclick="window.addToCart('${s.id}')">ADD</button>
+        </div>
+      `;
+    });
+  }
+
+  window.addToCart = (id) => {
+    const s = services.find(x => x.id === id);
+    if(cart[id]) cart[id].qty++;
+    else cart[id] = { ...s, qty: 1 };
+    renderCart();
+  };
+
+  window.removeFromCart = (id) => {
+    delete cart[id];
+    renderCart();
+  };
+
+  function renderCart() {
+    const cartItemsEl = document.getElementById('cartItems');
+    const items = Object.values(cart);
+    cartItemsEl.innerHTML = items.length ? '' : '<p style="color: var(--text-muted); font-size: 13px;">No services selected...</p>';
+    
+    let subtotal = 0;
+    items.forEach(it => {
+      subtotal += it.price * it.qty;
+      cartItemsEl.innerHTML += `
+        <div class="cart-item">
+          <span>${it.name} (x${it.qty})</span>
+          <span>₹${it.price * it.qty} <i class="fa-solid fa-trash remove-btn" onclick="window.removeFromCart('${it.id}')"></i></span>
+        </div>
+      `;
+    });
+
+    const discount = Math.round(subtotal * 0.20);
+    document.getElementById('cartSubtotal').innerText = `₹${subtotal}`;
+    document.getElementById('cartDiscount').innerText = `-₹${discount}`;
+    document.getElementById('cartPayable').innerText = `₹${subtotal - discount}`;
+  }
+
+  window.bookNow = async function() {
+    const entries = Object.values(cart);
+    if(!entries.length || !visitDate.value || !visitTime.value) {
+      alert("Please select services, date, and time.");
+      return;
+    }
+
+    const booking = {
+      salon: "Studio Luxe Salon",
+      date: visitDate.value,
+      time: visitTime.value,
+      finalAmount: document.getElementById('cartPayable').innerText,
+      services: entries.map(e => e.name),
+      timestamp: new Date().toISOString()
+    };
+
+    await push(ref(db, "appointments"), booking);
+    alert("Appointment Confirmed!");
+    window.location.href = "success.html";
+  };
+
+  // Category Filter Logic
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelector('.cat-btn.active').classList.remove('active');
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      renderServices();
+    };
+  });
+
+  renderServices();
+</script>
+
+</body>
+</html>

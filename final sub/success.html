@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Reservation Secured – Trimetime</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --bg-deep: #0a0b0d;
+    --card-dark: #14161a;
+    --gold: #c5a059; 
+    --gold-dim: rgba(197, 160, 89, 0.2);
+    --text-white: #ffffff;
+    --text-grey: #a0a6ad;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-image: radial-gradient(circle at center, #1a1c21 0%, #0a0b0d 100%);
+  }
+
+  .card {
+    background: var(--card-dark);
+    padding: 40px;
+    border-radius: 4px; /* Sharp luxury edges */
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid var(--gold-dim);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative Gold Corner */
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, transparent 50%, var(--gold) 50%);
+    opacity: 0.6;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .success-icon {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 24px;
+    color: var(--gold);
+    font-size: 32px;
+    animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes scaleIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  h2 {
+    font-family: 'Marcellus', serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .subtitle {
+    color: var(--text-grey);
+    font-size: 14px;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+  }
+
+  .token-badge {
+    background: rgba(197, 160, 89, 0.1);
+    padding: 12px 20px;
+    border: 1px dashed var(--gold);
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 30px;
+    font-family: 'Marcellus', serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  .details-container {
+    text-align: left;
+    border-top: 1px solid var(--gold-dim);
+    padding-top: 25px;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  .label { color: var(--text-grey); text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+  .val { color: var(--text-white); font-weight: 600; }
+
+  .services-list {
+    margin-top: 20px;
+    background: rgba(0,0,0,0.2);
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  .service-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: var(--text-grey);
+  }
+
+  .total-row {
+    margin-top: 20px;
+    border-top: 1px solid var(--gold-dim);
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Marcellus', serif;
+    font-size: 20px;
+    color: var(--gold);
+  }
+
+  .btn-group {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    padding: 16px;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: #000;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: #e2c285;
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+  }
+
+  .btn-outline:hover {
+    background: var(--gold-dim);
+  }
+</style>
+</head>
+
+<body>
+<div class="card">
+  <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+  <h2>Confirmed</h2>
+  <div class="subtitle">Your grooming ritual is scheduled.</div>
+
+  <div id="token" class="token-badge"></div>
+
+  <div class="details-container" id="details">
+    </div>
+
+  <div class="btn-group">
+    <button class="btn btn-primary" onclick="window.location.href='appointment.html'">
+      Manage My Rituals
+    </button>
+    <button class="btn btn-outline" onclick="window.location.href='luxe.html'">
+      Return to Studio
+    </button>
+  </div>
+</div>
+
+<script>
+  const data = JSON.parse(localStorage.getItem("lastBooking") || "{}");
+
+  // Format Token
+  document.getElementById("token").textContent = "TOKEN #" + (data.token || "---");
+
+  let html = "";
+  
+  // Basic Info Rows
+  const info = [
+    { label: "Studio", val: data.salon },
+    { label: "Date", val: data.date },
+    { label: "Time", val: data.time },
+    { label: "Party Size", val: data.people + " Person(s)" }
+  ];
+
+  info.forEach(item => {
+    html += `
+      <div class="detail-row">
+        <span class="label">${item.label}</span>
+        <span class="val">${item.val}</span>
+      </div>
+    `;
+  });
+
+  // Services Break-down
+  html += `<div class="label" style="margin-top:20px; margin-bottom:10px;">Services Rendered</div>`;
+  html += `<div class="services-list">`;
+  data.services.forEach(s => {
+    html += `
+      <div class="service-item">
+        <span>${s.name} (x${s.qty})</span>
+        <span>₹${s.qty * s.price}</span>
+      </div>
+    `;
+  });
+  html += `</div>`;
+
+  // Final Total
+  html += `
+    <div class="total-row">
+      <span>Total Amount</span>
+      <span>₹${data.finalAmount}</span>
+    </div>
+  `;
+
+  if(data.note){
+    html += `
+      <div class="label" style="margin-top:20px;">Special Requests</div>
+      <div style="font-size:13px; color:var(--text-grey); font-style:italic; margin-top:5px;">
+        "${data.note}"
+      </div>
+    `;
+  }
+
+  document.getElementById("details").innerHTML = html;
+</script>
+
+</body>
+</html>

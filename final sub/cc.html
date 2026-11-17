@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Classic Cuts & Co – Trimetime</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --bg-deep: #0a0b0d;
+    --card-dark: #14161a;
+    --accent-blue: #0ea5e9; 
+    --blue-dim: rgba(14, 165, 233, 0.15);
+    --text-white: #ffffff;
+    --text-grey: #a0a6ad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    background-color: var(--bg-deep); 
+    color: var(--text-white); 
+    font-family: 'Inter', sans-serif; 
+    line-height: 1.6;
+  }
+
+  /* Navigation */
+  .top-nav {
+    position: sticky; top: 0; z-index: 1000;
+    background: rgba(10, 11, 13, 0.98);
+    backdrop-filter: blur(20px);
+    padding: 15px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--blue-dim);
+  }
+  .brand { font-family: 'Marcellus', serif; font-size: 22px; letter-spacing: 5px; color: var(--accent-blue); }
+  .back-link { color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+  .back-link:hover { color: var(--accent-blue); }
+
+  .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+  /* Hero Section */
+  .salon-hero {
+    height: 300px; border-radius: 8px; overflow: hidden; position: relative;
+    border: 1px solid var(--blue-dim); margin-bottom: 30px;
+  }
+  .salon-hero img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); }
+  .hero-info { position: absolute; bottom: 30px; left: 30px; }
+  .hero-info h1 { font-family: 'Marcellus', serif; font-size: 38px; color: var(--text-white); margin-bottom: 8px; }
+  .hero-tags { display: flex; gap: 15px; font-size: 13px; color: var(--text-grey); }
+
+  /* Layout */
+  .main-layout { display: grid; grid-template-columns: 2fr 1.2fr; gap: 30px; }
+
+  .content-card {
+    background: var(--card-dark); padding: 25px; border-radius: 8px;
+    border: 1px solid var(--blue-dim); margin-bottom: 25px;
+  }
+  .content-card h3 { font-family: 'Marcellus', serif; color: var(--accent-blue); margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; font-size: 18px; }
+
+  /* Category Tabs */
+  .cat-pills { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 10px; }
+  .cat-pill {
+    padding: 8px 16px; border: 1px solid var(--blue-dim); color: var(--text-grey);
+    font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: 0.3s;
+  }
+  .cat-pill.active { border-color: var(--accent-blue); color: var(--accent-blue); background: var(--blue-dim); }
+
+  /* Service Rows */
+  .service-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .service-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .service-meta { font-size: 12px; color: var(--text-grey); }
+  .service-price { color: var(--accent-blue); font-weight: 700; font-size: 15px; margin-top: 4px; }
+  .add-btn {
+    background: transparent; border: 1px solid var(--accent-blue); color: var(--accent-blue);
+    padding: 6px 16px; font-size: 10px; font-weight: 800; cursor: pointer; transition: 0.3s;
+    text-transform: uppercase; letter-spacing: 1px; border-radius: 4px;
+  }
+  .add-btn:hover { background: var(--accent-blue); color: #000; }
+
+  /* Cart & Summary */
+  .cart-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 12px; }
+  .qty-text { color: var(--text-grey); margin-left: 5px; font-size: 11px; }
+  .remove-trigger { color: #f87171; font-size: 10px; cursor: pointer; margin-left: 10px; text-transform: uppercase; }
+  
+  .total-area { margin-top: 20px; border-top: 1px solid var(--blue-dim); padding-top: 20px; }
+  .summary-line { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+  .final-payable { font-family: 'Marcellus', serif; font-size: 22px; color: var(--accent-blue); margin-top: 10px; }
+
+  /* Booking Fields */
+  .booking-field { margin-bottom: 18px; }
+  .booking-field label { display: block; font-size: 11px; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .booking-field input, .booking-field select, .booking-field textarea {
+    width: 100%; background: #000; border: 1px solid var(--blue-dim); color: #fff;
+    padding: 12px; border-radius: 4px; outline: none; font-size: 13px; font-family: 'Inter', sans-serif;
+  }
+  .booking-field input[type="date"] {
+    color-scheme: dark;
+    cursor: pointer;
+  }
+  .booking-field input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+  }
+  .booking-field select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-confirm {
+    width: 100%; background: var(--accent-blue); color: #000; border: none;
+    padding: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
+    cursor: pointer; margin-top: 10px; transition: 0.3s; border-radius: 4px;
+  }
+
+  @media(max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="brand">TRIMETIME</div>
+  <div class="back-link" onclick="window.location.href='dashboard.html'"><i class="fa-solid fa-arrow-left"></i> All Salons</div>
+</nav>
+
+<div class="page-container">
+  <section class="salon-hero">
+    <img src="ccs.jpeg" alt="Classic Cuts & Co">
+    <div class="hero-info">
+      <h1>Classic Cuts & Co</h1>
+      <div class="hero-tags">
+        <span><i class="fa-solid fa-star" style="color:#fbbf24"></i> 4.1</span>
+        <span>•</span>
+        <span>Family Salon</span>
+        <span>•</span>
+        <span>4.8 km</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="main-layout">
+    <div class="left-col">
+      <div class="content-card">
+        <h3>About the Salon</h3>
+        <p style="font-size: 14px; color: var(--text-grey);">Mira Road's favorite neighborhood salon. Specializing in family grooming, budget-friendly cuts, and essential hair services for men, women, and kids.</p>
+      </div>
+
+      <div class="content-card">
+        <h3>Services</h3>
+        <div class="cat-pills" id="catTabs">
+          <div class="cat-pill active" data-cat="all">All</div>
+          <div class="cat-pill" data-cat="men">Men</div>
+          <div class="cat-pill" data-cat="women">Women</div>
+          <div class="cat-pill" data-cat="kids">Kids</div>
+          <div class="cat-pill" data-cat="basiccolor">Color</div>
+          <div class="cat-pill" data-cat="package">Packages</div>
+        </div>
+        <div id="serviceList"></div>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="content-card" style="position: sticky; top: 100px;">
+        <h3>Your Cart</h3>
+        <div id="cartItems"><p style="font-size: 12px; color: var(--text-grey);">No services added yet.</p></div>
+
+        <div class="total-area">
+            <div class="summary-line"><span>Subtotal</span> <span id="cartSubtotal">₹0</span></div>
+            <div class="summary-line" style="color: #4ade80;"><span>Flat 20% OFF</span> <span id="cartDiscount">-₹0</span></div>
+            <div class="summary-line final-payable"><span>Total</span> <span id="cartPayable">₹0</span></div>
+        </div>
+
+        <div class="booking-form" style="margin-top: 30px;">
+          <div class="booking-field"><label>Select Date</label><input type="date" id="visitDate"></div>
+          <div class="booking-field"><label>Select Time</label>
+            <select id="visitTime" disabled>
+              <option value="">Select a date first</option>
+              <option>10:00 AM – 11:00 AM</option>
+              <option>01:00 PM – 02:00 PM</option>
+              <option>04:00 PM – 05:00 PM</option>
+            </select>
+          </div>
+          <div class="booking-field"><label>Notes</label><textarea id="visitNote" placeholder="e.g. kid's school cut..."></textarea></div>
+          <button class="btn-confirm" onclick="bookNow()">Confirm Booking</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyC11HL4b2k0nAF8vOX_HbQ3F9iLRNZ8tdc",
+  authDomain:"login-4570c.firebaseapp.com",
+  databaseURL:"https://login-4570c-default-rtdb.firebaseio.com",
+  projectId:"login-4570c",
+  storageBucket:"login-4570c.firebasestorage.app",
+  messagingSenderId:"653554663492",
+  appId:"1:653554663492:web:be0ee49b01be551b1ffc11"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const services = [
+  {id:'c101', name:'Men\'s Basic Haircut', cat:'men', price:199, duration:'20 min'},
+  {id:'c102', name:'Men\'s Haircut + Wash', cat:'men', price:299, duration:'30 min'},
+  {id:'c201', name:'Women\'s Simple Trim', cat:'women', price:299, duration:'30 min'},
+  {id:'c301', name:'Kid\'s Haircut', cat:'kids', price:199, duration:'20 min'},
+  {id:'c401', name:'Root Touch-up', cat:'basiccolor', price:799, duration:'60 min'},
+  {id:'c501', name:'Dad & Kid Combo', cat:'package', price:499, duration:'50 min'}
+];
+
+let cart = {};
+let currentCat = 'all';
+const visitDateInput = document.getElementById('visitDate');
+const visitTimeSelect = document.getElementById('visitTime');
+const defaultSlots = [
+  '10:00 AM - 11:00 AM',
+  '01:00 PM - 02:00 PM',
+  '04:00 PM - 05:00 PM'
+];
+
+function formatDateForInput(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function updateTimeSlots(selectedDate) {
+  visitTimeSelect.innerHTML = '';
+
+  if (!selectedDate) {
+    visitTimeSelect.disabled = true;
+    visitTimeSelect.innerHTML = '<option value="">Select a date first</option>';
+    return;
+  }
+
+  visitTimeSelect.disabled = false;
+  visitTimeSelect.innerHTML = '<option value="">Choose a slot</option>';
+  defaultSlots.forEach((slot) => {
+    visitTimeSelect.innerHTML += `<option value="${slot}">${slot}</option>`;
+  });
+}
+
+function renderServices() {
+  const container = document.getElementById('serviceList');
+  container.innerHTML = '';
+  services.filter(s => currentCat === 'all' || s.cat === currentCat).forEach(s => {
+    container.innerHTML += `
+      <div class="service-row">
+        <div>
+          <div class="service-name">${s.name}</div>
+          <div class="service-meta">${s.duration}</div>
+          <div class="service-price">₹${s.price}</div>
+        </div>
+        <button class="add-btn" onclick="addToCart('${s.id}')">Add</button>
+      </div>
+    `;
+  });
+}
+
+window.addToCart = (id) => {
+  const s = services.find(x => x.id === id);
+  if(!cart[id]) cart[id] = { ...s, qty: 1 };
+  else cart[id].qty++;
+  renderCart();
+};
+
+window.removeFromCart = (id) => {
+    if(cart[id].qty > 1) cart[id].qty--;
+    else delete cart[id];
+    renderCart();
+};
+
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  const entries = Object.values(cart);
+  if(!entries.length) {
+    container.innerHTML = '<p style="font-size: 12px; color: var(--text-grey);">No services added yet.</p>';
+    updateTotals(0);
+    return;
+  }
+  container.innerHTML = '';
+  let subtotal = 0;
+  entries.forEach(item => {
+    subtotal += item.price * item.qty;
+    container.innerHTML += `
+      <div class="cart-item">
+        <span>${item.name} <span class="qty-text">x${item.qty}</span></span>
+        <span>₹${item.price * item.qty} <span class="remove-trigger" onclick="removeFromCart('${item.id}')">Remove</span></span>
+      </div>
+    `;
+  });
+  updateTotals(subtotal);
+}
+
+function updateTotals(subtotal) {
+  const discount = Math.round(subtotal * 0.2);
+  document.getElementById('cartSubtotal').innerText = '₹' + subtotal;
+  document.getElementById('cartDiscount').innerText = '-₹' + discount;
+  document.getElementById('cartPayable').innerText = '₹' + (subtotal - discount);
+}
+
+window.bookNow = async () => {
+  const date = document.getElementById('visitDate').value;
+  const time = document.getElementById('visitTime').value;
+  if(!date || !time || !Object.keys(cart).length) return alert("Select date, time and services.");
+
+  const booking = {
+    salon: "Classic Cuts & Co",
+    date, time,
+    finalAmount: document.getElementById('cartPayable').innerText.replace('₹',''),
+    services: Object.values(cart),
+    token: "TRIME-" + Math.floor(100000 + Math.random()*900000),
+    createdAt: new Date().toISOString()
+  };
+
+  localStorage.setItem("lastBooking", JSON.stringify(booking));
+  try { await set(push(ref(db, "appointments")), booking); } catch(e) {}
+  window.location.href = "success.html";
+};
+
+document.querySelectorAll('.cat-pill').forEach(pill => {
+  pill.onclick = () => {
+    document.querySelector('.cat-pill.active').classList.remove('active');
+    pill.classList.add('active');
+    currentCat = pill.dataset.cat;
+    renderServices();
+  };
+});
+
+visitDateInput.min = formatDateForInput(new Date());
+visitDateInput.addEventListener('change', (event) => {
+  updateTimeSlots(event.target.value);
+});
+updateTimeSlots(visitDateInput.value);
+
+renderServices();
+</script>
+</body>
+</html>

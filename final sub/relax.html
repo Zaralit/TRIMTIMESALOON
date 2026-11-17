@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Relax Head Spa – Trimetime</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --bg-deep: #0a0b0d;
+    --card-dark: #14161a;
+    --gold: #c5a059; 
+    --gold-dim: rgba(197, 160, 89, 0.2);
+    --text-white: #ffffff;
+    --text-grey: #a0a6ad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    background-color: var(--bg-deep); 
+    color: var(--text-white); 
+    font-family: 'Inter', sans-serif; 
+    line-height: 1.6;
+  }
+
+  /* Navigation */
+  .top-nav {
+    position: sticky; top: 0; z-index: 1000;
+    background: rgba(10, 11, 13, 0.98);
+    backdrop-filter: blur(20px);
+    padding: 15px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  .brand { font-family: 'Marcellus', serif; font-size: 22px; letter-spacing: 5px; color: var(--gold); }
+  .back-link { color: var(--text-grey); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
+  .back-link:hover { color: var(--gold); }
+
+  .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+  /* Hero Section */
+  .salon-hero {
+    height: 350px; border-radius: 4px; overflow: hidden; position: relative;
+    border: 1px solid var(--gold-dim); margin-bottom: 30px;
+  }
+  .salon-hero img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); }
+  .hero-info {
+    position: absolute; bottom: 40px; left: 40px;
+  }
+  .hero-info h1 { font-family: 'Marcellus', serif; font-size: 42px; color: var(--gold); margin-bottom: 10px; }
+  .hero-tags { display: flex; gap: 15px; font-size: 13px; color: var(--text-grey); }
+
+  /* Content Layout */
+  .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+
+  .content-card {
+    background: var(--card-dark); padding: 25px; border-radius: 4px;
+    border: 1px solid var(--gold-dim); margin-bottom: 25px;
+  }
+  .content-card h3 { font-family: 'Marcellus', serif; color: var(--gold); margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; font-size: 18px; }
+
+  /* Gallery Grid */
+  .gallery-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+  .gallery-preview img { width: 100%; height: 150px; object-fit: cover; border-radius: 2px; border: 1px solid var(--gold-dim); transition: 0.4s; }
+  .gallery-preview img:hover { border-color: var(--gold); }
+
+  /* Service Styling */
+  .service-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .service-row:last-child { border: none; }
+  .service-name { font-weight: 600; font-size: 15px; }
+  .service-meta { font-size: 12px; color: var(--text-grey); }
+  .add-btn {
+    background: transparent; border: 1px solid var(--gold); color: var(--gold);
+    padding: 6px 18px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .add-btn:hover { background: var(--gold); color: #000; }
+
+  /* Cart & Form Styling */
+  .cart-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px; }
+  .total-line { display: flex; justify-content: space-between; margin-top: 15px; border-top: 1px solid var(--gold-dim); padding-top: 15px; }
+  .payable { font-family: 'Marcellus', serif; font-size: 20px; color: var(--gold); }
+
+  .booking-field { margin-bottom: 15px; }
+  .booking-field label { display: block; font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+  .booking-field input, .booking-field select, .booking-field textarea {
+    width: 100%; background: #000; border: 1px solid var(--gold-dim); color: #fff;
+    padding: 12px; border-radius: 2px; outline: none; font-size: 13px;
+  }
+  .booking-field input:focus { border-color: var(--gold); }
+
+  .btn-confirm {
+    width: 100%; background: var(--gold); color: #000; border: none;
+    padding: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+    cursor: pointer; margin-top: 20px; transition: 0.3s;
+  }
+  .btn-confirm:hover { background: #e2c285; transform: translateY(-2px); }
+
+  .cat-pills { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 5px; }
+  .cat-pill {
+    padding: 8px 16px; border: 1px solid var(--gold-dim); color: var(--text-grey);
+    font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; white-space: nowrap;
+  }
+  .cat-pill.active { border-color: var(--gold); color: var(--gold); }
+
+  @media(max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="brand">TRIMETIME</div>
+  <div class="back-link" onclick="window.location.href='dashboard.html'"><i class="fa-solid fa-arrow-left"></i> Curated Directory</div>
+</nav>
+
+<div class="page-container">
+  <section class="salon-hero">
+    <img src="relax heads.png" alt="Relax Head Spa Interior">
+    <div class="hero-info">
+      <h1>Relax Head Spa</h1>
+      <div class="hero-tags">
+        <span><i class="fa-solid fa-star" style="color:var(--gold)"></i> 4.9</span>
+        <span>•</span>
+        <span>Mira Road</span>
+        <span>•</span>
+        <span>Premium Wellness</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="main-layout">
+    <div class="left-col">
+      <div class="content-card">
+        <h3>The Ritual</h3>
+        <p style="font-size: 14px; color: var(--text-grey);">A sanctuary dedicated to cranial wellness and deep tissue recovery. Our therapists specialize in low-light, high-sensory rituals designed to recalibrate the mind and body. Experience the intersection of ancient technique and modern luxury.</p>
+        
+        <div class="gallery-preview" style="margin-top: 25px;">
+            <img src="relax heads.png">
+            <img src="relax heads.png">
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h3>Service Menu</h3>
+        <div class="cat-pills">
+          <div class="cat-pill active" data-cat="all">All Rituals</div>
+          <div class="cat-pill" data-cat="head">Cranial</div>
+          <div class="cat-pill" data-cat="body">Somatic</div>
+          <div class="cat-pill" data-cat="package">Collections</div>
+        </div>
+        <div id="serviceList"></div>
+      </div>
+    </div>
+
+    <div class="right-col">
+      <div class="content-card">
+        <h3>Reservation</h3>
+        <div id="cartItems" style="margin-bottom: 20px;">
+          <p style="font-size: 12px; color: var(--text-grey);">Select a ritual to begin your booking.</p>
+        </div>
+
+        <div class="total-line">
+            <span style="font-size: 12px; color: var(--text-grey);">APPROX. INVESTMENT</span>
+            <span class="payable" id="cartPayable">₹0</span>
+        </div>
+
+        <div class="booking-form" style="margin-top: 30px;">
+          <div class="booking-field">
+            <label>Date of Ritual</label>
+            <input type="date" id="visitDate">
+          </div>
+          <div class="booking-field">
+            <label>Preferred Window</label>
+            <select id="visitTime">
+                <option value="">Choose a slot</option>
+                <option>10:00 AM – 12:00 PM</option>
+                <option>02:00 PM – 04:00 PM</option>
+                <option>06:00 PM – 08:00 PM</option>
+            </select>
+          </div>
+          <div class="booking-field">
+            <label>Therapist Notes</label>
+            <textarea id="visitNote" placeholder="e.g. Focus on neck tension..."></textarea>
+          </div>
+          <button class="btn-confirm" onclick="bookNow()">Confirm Ritual</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC11HL4b2k0nAF8vOX_HbQ3F9iLRNZ8tdc",
+  authDomain: "login-4570c.firebaseapp.com",
+  databaseURL: "https://login-4570c-default-rtdb.firebaseio.com",
+  projectId: "login-4570c",
+  storageBucket: "login-4570c.firebasestorage.app",
+  messagingSenderId: "653554663492",
+  appId: "1:653554663492:web:be0ee49b01be551b1ffc11"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const services = [
+  {id:'r1', name:'Signature Head Spa Ritual', cat:'head', price:1499, duration:'60 min'},
+  {id:'r2', name:'Deep Tissue Somatic Massage', cat:'body', price:2299, duration:'90 min'},
+  {id:'r3', name:'The Stress Relief Collection', cat:'package', price:3299, duration:'150 min'},
+  {id:'r4', name:'Aroma Relaxation Ritual', cat:'body', price:1899, duration:'70 min'}
+];
+
+const cart = {};
+
+function renderServices(filter = 'all') {
+  const container = document.getElementById('serviceList');
+  container.innerHTML = '';
+  services.filter(s => filter === 'all' || s.cat === filter).forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'service-row';
+    div.innerHTML = `
+      <div>
+        <div class="service-name">${s.name}</div>
+        <div class="service-meta">${s.duration} • Premium Therapy</div>
+        <div style="color:var(--gold); font-weight:700; margin-top:5px;">₹${s.price}</div>
+      </div>
+      <button class="add-btn" onclick="addToCart('${s.id}')">Add</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+window.addToCart = (id) => {
+  const s = services.find(x => x.id === id);
+  if(!cart[id]) cart[id] = { ...s, qty: 1 };
+  else cart[id].qty++;
+  updateUI();
+};
+
+function updateUI() {
+  const cartContainer = document.getElementById('cartItems');
+  cartContainer.innerHTML = '';
+  let total = 0;
+  Object.values(cart).forEach(item => {
+    total += item.price * item.qty;
+    cartContainer.innerHTML += `
+      <div class="cart-item">
+        <span>${item.name} x${item.qty}</span>
+        <span>₹${item.price * item.qty}</span>
+      </div>
+    `;
+  });
+  document.getElementById('cartPayable').innerText = '₹' + Math.round(total * 0.8); // 20% Discount applied
+}
+
+window.bookNow = async () => {
+  const date = document.getElementById('visitDate').value;
+  if(!date || Object.keys(cart).length === 0) return alert("Please select date and ritual.");
+  
+  const booking = {
+    salon: "Relax Head Spa",
+    date,
+    time: document.getElementById('visitTime').value,
+    finalAmount: document.getElementById('cartPayable').innerText,
+    services: Object.values(cart),
+    token: "TRIME-" + Math.floor(100000 + Math.random()*900000)
+  };
+
+  localStorage.setItem("lastBooking", JSON.stringify(booking));
+  await set(push(ref(db, "appointments")), booking);
+  window.location.href = "success.html";
+};
+
+document.querySelectorAll('.cat-pill').forEach(p => {
+  p.onclick = () => {
+    document.querySelector('.cat-pill.active').classList.remove('active');
+    p.classList.add('active');
+    renderServices(p.dataset.cat);
+  };
+});
+
+renderServices();
+</script>
+</body>
+</html>
+</html>

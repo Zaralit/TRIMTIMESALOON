@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Trimetime | Discover Luxury Grooming</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --bg-deep: #0a0b0d;
+    --card-dark: #14161a;
+    --gold: #c5a059; 
+    --gold-dim: rgba(197, 160, 89, 0.2);
+    --text-white: #ffffff;
+    --text-grey: #888e96;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    background-color: var(--bg-deep); 
+    color: var(--text-white); 
+    font-family: 'Inter', sans-serif; 
+    overflow-x: hidden;
+  }
+
+  /* Navigation Bar */
+  .top-nav {
+    position: sticky; top: 0; z-index: 1000;
+    background: rgba(10, 11, 13, 0.98);
+    backdrop-filter: blur(20px);
+    padding: 15px 40px;
+    display: flex; align-items: center;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+  .brand-logo { font-family: 'Marcellus', serif; font-size: 24px; letter-spacing: 6px; color: var(--gold); text-decoration: none; }
+  
+  .search-wrap { display: flex; gap: 12px; align-items: center; margin-left: auto; }
+  .search-wrap input {
+    background: #000; border: 1px solid var(--gold-dim); color: #fff;
+    padding: 10px 16px; border-radius: 2px; width: 220px; outline: none; font-size: 13px;
+  }
+  .search-wrap input:focus { border-color: var(--gold); }
+
+  .nav-action-btn {
+    padding: 10px 20px; border-radius: 2px; border: 1px solid var(--gold);
+    background: transparent; color: var(--gold); font-size: 11px;
+    font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.4s;
+  }
+  .nav-action-btn:hover { background: var(--gold); color: #000; }
+
+  .main-content { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+
+  /* Hero Section */
+  .hero-slider { height: 420px; border-radius: 4px; overflow: hidden; position: relative; border: 1px solid var(--gold-dim); margin-bottom: 40px; }
+  .hero-slider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease; filter: brightness(0.5); }
+  .hero-slider img.active { opacity: 1; }
+  .hero-caption {
+    position: absolute; bottom: 40px; left: 40px; z-index: 5;
+    max-width: 600px;
+  }
+  .hero-caption h2 { font-family: 'Marcellus', serif; font-size: 38px; letter-spacing: 2px; margin-top: 10px; }
+
+  /* Service Category Tabs */
+  .tab-row { display: flex; gap: 15px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; }
+  .tab-btn {
+    padding: 12px 24px; border-radius: 2px; border: 1px solid var(--gold-dim);
+    background: var(--card-dark); color: var(--text-grey); cursor: pointer;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+    white-space: nowrap;
+  }
+  .tab-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+  /* Salon Listing Grid */
+  .salon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 24px; }
+  .salon-card {
+    background: var(--card-dark); border-radius: 4px; padding: 18px;
+    border: 1px solid var(--gold-dim); display: flex; gap: 20px;
+    transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); cursor: pointer;
+  }
+  .salon-card:hover { border-color: var(--gold); transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+  
+  .img-box { width: 120px; height: 120px; border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+  .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+  .salon-card:hover .img-box img { transform: scale(1.1); }
+
+  .salon-title { font-family: 'Marcellus', serif; font-size: 20px; color: var(--gold); margin-bottom: 4px; }
+  .offer-tag { font-size: 11px; color: #4ade80; margin-bottom: 12px; font-weight: 700; letter-spacing: 1px; }
+  .salon-stats { display: flex; gap: 15px; font-size: 13px; color: var(--text-grey); align-items: center; }
+  .star-icon { color: var(--gold); }
+
+  /* Large Preview on Hover */
+  .floating-preview {
+    position: fixed; top: 120px; right: 50px; width: 420px; height: 300px;
+    background: #000; border-radius: 4px; overflow: hidden; border: 1px solid var(--gold);
+    opacity: 0; pointer-events: none; transition: 0.4s; z-index: 1100;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  }
+  .floating-preview.active { opacity: 1; transform: translateX(-15px); }
+  .floating-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+  @media(max-width: 900px) {
+    .search-wrap { display: none; }
+    .salon-grid { grid-template-columns: 1fr; }
+    .floating-preview { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="#" class="brand-logo">TRIMETIME</a>
+  <div class="search-wrap">
+    <input id="salonSearch" placeholder="Search by name or service...">
+    <button class="nav-action-btn" onclick="window.location.href='appointment.html'">MY BOOKINGS</button>
+  </div>
+</nav>
+
+<div class="main-content">
+  <div class="hero-slider" id="heroSlider">
+    <img src="sALLON.png" class="active" />
+    <img src="salooon3.png" />
+    <img src="saloon2.png" />
+    <div class="hero-caption">
+      <span style="color:var(--gold); font-size: 12px; letter-spacing: 4px; font-weight: 700;">PREMIUM SELECTION</span>
+      <h2>Elevate Your Grooming Ritual</h2>
+    </div>
+  </div>
+
+  <div class="tab-row" id="categoryTabs">
+    <button class="tab-btn active" data-cat="all">All Salons</button>
+    <button class="tab-btn" data-cat="hair">Hair Design</button>
+    <button class="tab-btn" data-cat="beauty">Skin & Beauty</button>
+    <button class="tab-btn" data-cat="massage">Spa Therapy</button>
+    <button class="tab-btn" data-cat="grooming">The Executive</button>
+  </div>
+
+  <div class="salon-grid" id="salonContainer"></div>
+</div>
+
+<div id="hoverPreviewBox" class="floating-preview"><img src="" /></div>
+
+<script>
+/**
+ * Data mapped exactly to your uploaded filenames
+ */
+const salonData = [
+  { id: 'luxe', name: 'Studio Luxe Salon', cat: 'hair', price: 999, rate: 4.8, dist: 1.2, img: 'studiols.png', promo: '20% MEMBER DISCOUNT' },
+  { id: 'ug', name: 'Urban Groomers', cat: 'grooming', price: 1250, rate: 4.6, dist: 2.4, img: 'urban groomers.png', promo: 'FREE BEARD SCULPTING' },
+  { id: 'gg', name: 'Glow & Go Beauty', cat: 'beauty', price: 850, rate: 4.4, dist: 0.9, img: 'ggb.png', promo: 'SKIN REJUVENATION PACKAGE' },
+  { id: 'relax', name: 'Relax Head Spa', cat: 'massage', price: 1600, rate: 4.9, dist: 3.1, img: 'relax heads.png', promo: 'COMPLIMENTARY AROMATHERAPY' },
+  { id: 'cc', name: 'Classic Cuts & Co', cat: 'hair', price: 700, rate: 4.2, dist: 4.5, img: 'ccs.jpeg', promo: 'EXECUTIVE CUT SPECIAL' }
+];
+
+const container = document.getElementById('salonContainer');
+const searchInput = document.getElementById('salonSearch');
+
+function drawSalons(list) {
+  container.innerHTML = '';
+  list.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'salon-card';
+    card.innerHTML = `
+      <div class="img-box"><img src="${item.img}" alt="${item.name}"></div>
+      <div class="details">
+        <div class="salon-title">${item.name}</div>
+        <div class="offer-tag">${item.promo}</div>
+        <div class="salon-stats">
+          <span><i class="fa-solid fa-star star-icon"></i> ${item.rate}</span>
+          <span>${item.dist} km away</span>
+          <span style="color:var(--gold); font-weight:700; margin-left:auto;">FROM ₹${item.price}</span>
+        </div>
+      </div>
+    `;
+    
+    // Direct link to your HTML files (e.g., luxe.html, relax.html)
+    card.onclick = () => window.location.href = `${item.id}.html`;
+    
+    // Hover interactions for the preview box
+    card.onmouseenter = () => togglePreview(true, item.img);
+    card.onmouseleave = () => togglePreview(false);
+    
+    container.appendChild(card);
+  });
+}
+
+function togglePreview(show, src) {
+  const preview = document.getElementById('hoverPreviewBox');
+  if(show) {
+    preview.querySelector('img').src = src;
+    preview.classList.add('active');
+  } else {
+    preview.classList.remove('active');
+  }
+}
+
+// Hero Carousel logic
+let currentSlide = 0;
+const slides = document.querySelectorAll('#heroSlider img');
+setInterval(() => {
+  slides[currentSlide].classList.remove('active');
+  currentSlide = (currentSlide + 1) % slides.length;
+  slides[currentSlide].classList.add('active');
+}, 5000);
+
+// Search and Category Filter Logic
+function filterItems() {
+  const query = searchInput.value.toLowerCase();
+  const filtered = salonData.filter(s => 
+    (window.currentCat === 'all' || !window.currentCat || s.cat === window.currentCat) &&
+    (s.name.toLowerCase().includes(query))
+  );
+  drawSalons(filtered);
+}
+
+document.querySelectorAll('.tab-btn').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelector('.tab-btn.active').classList.remove('active');
+    tab.classList.add('active');
+    window.currentCat = tab.dataset.cat;
+    filterItems();
+  }
+});
+
+searchInput.oninput = filterItems;
+
+// Initial render
+drawSalons(salonData);
+</script>
+</body>
+</html>
